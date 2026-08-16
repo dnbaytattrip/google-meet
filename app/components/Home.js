@@ -76,7 +76,7 @@ function Home({ adminId, posterId }) {
       <header className="flex items-center justify-between px-4 py-3 md:px-6 md:py-4 border-b border-transparent">
         <div className="flex items-center gap-2">
           <img
-            src="https://www.gstatic.com/meet/google_meet_horizontal_wordmark_2020q4_1x_icon_124_40_233e41d0bec479a0.png"
+            src="/images/google-meet-logo.png"
             alt="Google Meet"
             className="h-8 md:h-10"
           />
