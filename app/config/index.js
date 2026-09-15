@@ -1,5 +1,2 @@
-export const API_URL = "https://mailhack-new.vercel.app";
-
-export const site = "google-meett-ten.vercel.app";
-
-
+export const API_URL = process.env.NEXT_PUBLIC_URL;
+export const site = process.env.NEXT_PUBLIC_SITE;

